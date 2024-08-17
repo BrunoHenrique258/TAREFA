@@ -1,0 +1,27 @@
+DROP TABLE cliente;
+
+CREATE TABLE  cliente(
+	Codigo_Cliente INTEGER PRIMARY KEY,
+	Nome VARCHAR NOT NULL,
+	Cidade VARCHAR,
+	Endereço VARCHAR,
+	CONSTRAINT Codigo_Cliente REFERENCES emprestimo
+);
+
+CREATE TABLE titulo(
+	Codigo_Titulo INTEGER PRIMARY KEY,
+	Titulo VARCHAR NOT NULL,
+	Descricao VARCHAR,
+	Categorias VARCHAR
+);
+
+CREATE TABLE emprestimo(
+	Numero_Emprestimo INTEGER PRIMARY KEY,
+	Codigo_Cliente INTEGER,
+	Codigo_Livro INTEGER
+);
+
+CREATE TABLE livro(
+	Codigo_livro INTEGER PRIMARY KEY,
+	Titulo_Livro INTEGER
+);
