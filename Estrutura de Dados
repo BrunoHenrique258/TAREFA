@@ -1,0 +1,56 @@
+P.2.7
+
+class MyArray {
+    // Método recursivo para somar todos os elementos de um array
+    public static somarElementosRecursivo(array: number[], index: number = 0): number {
+        // Caso base: se o índice atingir o comprimento do array, retorna 0
+        if (index >= array.length) {
+            return 0;
+        }
+        // Chamada recursiva: soma o elemento atual com a soma do restante do array
+        return array[index] + MyArray.somarElementosRecursivo(array, index + 1);
+    }
+}
+
+// Exemplo de uso da soma recursiva
+const meuArray = [1, 2, 3, 4, 5];
+const resultadoSomaRecursiva = MyArray.somarElementosRecursivo(meuArray);
+console.log(resultadoSomaRecursiva); // Saída: 15
+
+
+P.2.8
+
+class MyArray {
+    // Método recursivo para imprimir todos os elementos de um array
+    public static imprimirElementos(array: number[], index: number = 0): void {
+        // Caso base: se o índice atingir o comprimento do array, termina a recursão
+        if (index >= array.length) {
+            return;
+        }
+        // Imprime o elemento atual
+        console.log(array[index]);
+        // Chamada recursiva para o próximo índice
+        MyArray.imprimirElementos(array, index + 1);
+    }
+
+    // Método recursivo para imprimir todos os elementos de um array de forma reversa
+    public static imprimirElementosReverso(array: number[], index: number = 0): void {
+        // Caso base: se o índice atingir o comprimento do array, termina a recursão
+        if (index >= array.length) {
+            return;
+        }
+        // Chamada recursiva para o próximo índice
+        MyArray.imprimirElementosReverso(array, index + 1);
+        // Imprime o elemento atual após a chamada recursiva
+        console.log(array[index]);
+    }
+}
+
+// Exemplo de uso
+const meuArray = [1, 2, 3, 4, 5];
+
+console.log("Elementos do array:");
+MyArray.imprimirElementos(meuArray);
+
+console.log("Elementos do array em ordem reversa:");
+MyArray.imprimirElementosReverso(meuArray);
