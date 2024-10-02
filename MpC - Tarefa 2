@@ -1,4 +1,4 @@
-//Index.ts
+//Index.ts (Código-Fonte)
 
 import { VeiculoEletricoVoador } from './VeiculoEletricoVoador.ts';
 
