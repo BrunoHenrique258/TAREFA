@@ -1,18 +1,18 @@
 //Index.ts
 
-import { VeiculoEletricoVoador } from './VeiculoEletricoVoador';
+import { VeiculoEletricoVoador } from './VeiculoEletricoVoador.ts';
 
-// Criando uma instância de Veículo Elétrico e Voador
-const veiculoVoador = new VeiculoEletricoVoador(10, 20, 100, 500); // Iniciando com longitude 10, latitude 20, capacidade de bateria 100 Ah, altitude 500
+/* Criando uma instância para Veículo Elétrico e Voador */
+const veiculoVoador = new VeiculoEletricoVoador(-23.3050, -45.9650, 100, 0);
 
 console.log('Posição inicial:', veiculoVoador);
 
-// Movendo o veículo horizontalmente (alteração na longitude e latitude)
-veiculoVoador.moverHorizontal(5, -3);
-console.log('Após mover horizontalmente:', veiculoVoador);
+/* Movendo o veículo horizontalmente (alteração na longitude e latitude) */
+veiculoVoador.moverComConsumo(-0.009, -0.009, 10);
+console.log('Após mover horizontalmente com consumo:', veiculoVoador);
 
-// Movendo o veículo verticalmente (alteração na altitude)
-veiculoVoador.moverVertical(200);
+/* Movendo o veículo verticalmente (alteração na altitude) */
+veiculoVoador.moverVertical(200, 15);  /* Números negativos geram erro */
 console.log('Após mover verticalmente:', veiculoVoador);
 
 //Veiculo.ts
@@ -20,44 +20,66 @@ console.log('Após mover verticalmente:', veiculoVoador);
 export class Veiculo {
     longitude: number;
     latitude: number;
-  
+
     constructor(longitude: number, latitude: number) {
-      this.longitude = longitude;
-      this.latitude = latitude;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
-  
-    moverHorizontal(deltaLongitude: number, deltaLatitude: number): void {
-      this.longitude += deltaLongitude;
-      this.latitude += deltaLatitude;
+
+    moverHorizontal(deltaLongitude: number, deltaLatitude: number,): void {
+        this.longitude += deltaLongitude;
+        this.latitude += deltaLatitude;
     }
-  }
-
-//VeiculoEletrico
-
-import { Veiculo } from './veiculo';
-
-export class VeiculoEletrico extends Veiculo {
-  capacidadeBateria: number; // Em Ampere-hora (Ah)
-
-  constructor(longitude: number, latitude: number, capacidadeBateria: number) {
-    super(longitude, latitude);
-    this.capacidadeBateria = capacidadeBateria;
-  }
 }
 
-//VeiculoEletricoVoador
+//VeiculoEletrico.ts
+
+import { Veiculo } from './Veiculo';
+
+export class VeiculoEletrico extends Veiculo {
+    capacidadeBateria: number; /* Em Ampere-hora (Ah) */
+
+    constructor(longitude: number, latitude: number, capacidadeBateria: number) {
+        super(longitude, latitude);
+        this.capacidadeBateria = capacidadeBateria;
+    }
+
+    moverHorizontal(deltaLongitude: number, deltaLatitude: number): void {
+        super.moverHorizontal(deltaLongitude, deltaLatitude);
+
+    }
+
+    moverComConsumo(deltaLongitude: number, deltaLatitude: number, consumoBateria: number): void {
+        if (this.capacidadeBateria - consumoBateria < 0) {
+            console.error('Não há bateria suficiente para essa movimentação.');
+            return; /* Movimentação com consumo de bateria ( 10 Ah por quilometro ) */
+        }
+
+        super.moverHorizontal(deltaLongitude, deltaLatitude);
+        this.capacidadeBateria -= consumoBateria;
+    }
+
+}
+
+//VeiculoEletricoVoador.ts
 
 import { VeiculoEletrico } from './VeiculoEletrico';
 
 export class VeiculoEletricoVoador extends VeiculoEletrico {
-  altitude: number;
+    altitude: number;
 
-  constructor(longitude: number, latitude: number, capacidadeBateria: number, altitude: number) {
-    super(longitude, latitude, capacidadeBateria);
-    this.altitude = altitude;
-  }
+    constructor(longitude: number, latitude: number, capacidadeBateria: number, altitude: number) {
+        super(longitude, latitude, capacidadeBateria);
+        this.altitude = altitude;
+    }
 
-  moverVertical(deltaAltitude: number): void {
-    this.altitude += deltaAltitude;
-  }
+    moverVertical(deltaAltitude: number, consumoBateria: number): void {
+        const novaAltitude = this.altitude + deltaAltitude;
+        if (novaAltitude < 0) {
+            console.error('A altitude não pode ser negativa.');
+        } else {
+            this.altitude = novaAltitude;
+            this.capacidadeBateria -= consumoBateria; /* Consumo de bateria ao se mover verticalmente ( 15 Ah por quilometro ) */
+        }
+    }
 }
