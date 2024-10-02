@@ -1,120 +1,111 @@
-Veiculo.ts
-
 // Veiculo.ts
+
 export class Veiculo {
-    protected latitude: number;
-    protected longitude: number;
+    private latitude: number;
+    private longitude: number;
 
     constructor(latitude: number, longitude: number) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
+    public obterCoordenadas(): { latitude: number; longitude: number } {
+        return { latitude: this.latitude, longitude: this.longitude };
+    }
+
     public mover(novaLatitude: number, novaLongitude: number): void {
         this.latitude = novaLatitude;
         this.longitude = novaLongitude;
-        console.log(`Veículo movido para: Latitude ${this.latitude}, Longitude ${this.longitude}`);
-    }
-
-    public getLocalizacao(): { latitude: number; longitude: number } {
-        return {
-            latitude: this.latitude,
-            longitude: this.longitude,
-        };
     }
 }
 
 export class VeiculoEletrico extends Veiculo {
-    private capacidadeBateria: number; // em Ampere-hora
-    protected energiaDisponivel: number; // energia atual disponível em Ampere-hora
+    protected bateria: number; // Capacidade da bateria em porcentagem
 
-    constructor(latitude: number, longitude: number, capacidadeBateria: number) {
+    constructor(latitude: number, longitude: number, bateria: number) {
         super(latitude, longitude);
-        this.capacidadeBateria = capacidadeBateria;
-        this.energiaDisponivel = capacidadeBateria; // Inicializa a energia disponível com a capacidade total
+        this.bateria = bateria;
     }
 
-    public getCapacidadeBateria(): number {
-        return this.capacidadeBateria;
+    public obterBateria(): number {
+        return this.bateria;
     }
 
-    public getEnergiaDisponivel(): number {
-        return this.energiaDisponivel;
+    public recarregar(novaBateria: number): void {
+        this.bateria = Math.min(novaBateria, 100); // A bateria não pode passar de 100%
     }
 
     public mover(novaLatitude: number, novaLongitude: number): void {
-        const distancia = Math.sqrt(
-            Math.pow(novaLatitude - this.latitude, 2) + Math.pow(novaLongitude - this.longitude, 2)
-        );
-
-        // Supondo que cada unidade de distância consome 1 Ah de energia
-        const consumoEnergia = distancia; 
-
-        if (this.energiaDisponivel >= consumoEnergia) {
-            super.mover(novaLatitude, novaLongitude); // Move horizontalmente
-            this.energiaDisponivel -= consumoEnergia; // Reduz a energia disponível
-            console.log(`Energia consumida: ${consumoEnergia} Ah. Energia restante: ${this.energiaDisponivel} Ah.`);
+        if (this.bateria > 0) {
+            super.mover(novaLatitude, novaLongitude);
+            this.bateria -= 10; // Consome 10% da bateria ao mover
+            console.log(`Movendo para: Latitude ${novaLatitude}, Longitude ${novaLongitude}`);
         } else {
-            console.log('Energia insuficiente para mover o veículo.');
+            console.log("Bateria insuficiente para mover.");
         }
     }
 }
 
 export class VeiculoEletricoVoador extends VeiculoEletrico {
-    private altitude: number; // Altura em relação ao solo
+    private altitude: number; // Altitude em metros
 
-    constructor(latitude: number, longitude: number, capacidadeBateria: number, altitudeInicial: number) {
-        super(latitude, longitude, capacidadeBateria);
-        this.altitude = altitudeInicial; // Inicializa a altitude
+    constructor(latitude: number, longitude: number, bateria: number, altitude: number = 0) {
+        super(latitude, longitude, bateria);
+        this.altitude = altitude;
     }
 
-    public sobrevoar(novaLatitude: number, novaLongitude: number, novaAltitude: number): void {
-        const distanciaHorizontal = Math.hypot(novaLatitude - this.latitude, novaLongitude - this.longitude);
-        const consumoEnergia = distanciaHorizontal + Math.abs(novaAltitude - this.altitude);
+    public obterAltitude(): number {
+        return this.altitude;
+    }
 
-        if (this.energiaDisponivel >= consumoEnergia) {
-            super.mover(novaLatitude, novaLongitude); // Move horizontalmente
-            this.altitude = novaAltitude; // Atualiza a altitude
-            this.energiaDisponivel -= consumoEnergia; // Reduz a energia disponível
+    public subir(incremento: number): void {
+        this.altitude += incremento;
+        console.log(`Subindo para a altitude: ${this.altitude} metros.`);
+    }
 
-            console.log(`Veículo voador movido para: Latitude ${this.latitude}, Longitude ${this.longitude}, Altitude ${this.altitude}`);
-            console.log(`Energia consumida: ${consumoEnergia} Ah. Energia restante: ${this.energiaDisponivel} Ah.`);
+    public descer(decremento: number): void {
+        if (this.altitude - decremento >= 0) {
+            this.altitude -= decremento;
+            console.log(`Descendo para a altitude: ${this.altitude} metros.`);
         } else {
-            console.log('Energia insuficiente para mover o veículo voador.');
+            console.log("Não é possível descer abaixo da altitude 0 metros.");
         }
     }
 
-    public getAltitude(): number {
-        return this.altitude;
+    public mover(novaLatitude: number, novaLongitude: number): void {
+        console.log(`Tentando mover para: Latitude ${novaLatitude}, Longitude ${novaLongitude}.`);
+        if (this.bateria > 0) {
+            super.mover(novaLatitude, novaLongitude);
+            this.bateria -= 15; // Consome 15% da bateria ao mover no ar
+            console.log(`Movido! Nova posição: Latitude ${novaLatitude}, Longitude ${novaLongitude}, Altitude ${this.altitude} metros.`);
+        } else {
+            console.log("Bateria insuficiente para mover.");
+        }
     }
 }
 
 
+// App.ts
 
-App.ts
+import { VeiculoEletricoVoador } from './Veiculo';
 
-// app.ts
-import { Veiculo, VeiculoEletrico, VeiculoEletricoVoador } from './Veiculo';
+function main() {
+    // Criação de um novo veículo elétrico voador
+    const veiculoVoador = new VeiculoEletricoVoador(40.7128, -74.0060, 100); // Nova Iorque com bateria cheia
 
-/*
-// Criando um veículo normal
-const meuVeiculo = new Veiculo(-23.5505, -46.6333);
-console.log('Localização do veículo normal:', meuVeiculo.getLocalizacao());
-meuVeiculo.mover(-23.0000, -46.0000);
-console.log('Nova localização do veículo normal:', meuVeiculo.getLocalizacao());
+    // Acessando as coordenadas e altitude
+    console.log(`Coordenadas iniciais: ${JSON.stringify(veiculoVoador.obterCoordenadas())}`);
+    console.log(`Bateria: ${veiculoVoador.obterBateria()}%`);
+    console.log(`Altitude: ${veiculoVoador.obterAltitude()} metros`);
 
-// Criando um veículo elétrico com 50 Ah
-const meuVeiculoEletrico = new VeiculoEletrico(-23.5505, -46.6333, 50);
-console.log('Localização do veículo elétrico:', meuVeiculoEletrico.getLocalizacao());
-meuVeiculoEletrico.mover(-22.0000, -45.0000);
-console.log('Energia disponível após movimento:', meuVeiculoEletrico.getEnergiaDisponivel(), 'Ah'); */
+    // Movendo o veículo elétrico voador
+    veiculoVoador.subir(100); // Subindo para 100 metros
+    veiculoVoador.mover(34.0522, -118.2437); // Nova localização
+    console.log(`Movido! Bateria restante: ${veiculoVoador.obterBateria()}%`);
 
-// Criando um veículo elétrico voador com 50 Ah e altitude inicial de 100
-const meuVeiculoEletricoVoador = new VeiculoEletricoVoador(-23.5505, -46.6333, 50, 100);
-console.log('Localização do veículo elétrico voador:', meuVeiculoEletricoVoador.getLocalizacao(), 'Altura:', meuVeiculoEletricoVoador.getAltitude());
+      // Descendo o veículo até 0 metros
+      veiculoVoador.descer(veiculoVoador.obterAltitude()); // Descendo para 0 metros
+      console.log(`Altitude atual: ${veiculoVoador.obterAltitude()} metros`);
+  }
 
-// Movendo o veículo voador para uma nova posição e altitude
-meuVeiculoEletricoVoador.sobrevoar(-22.0000, -45.0000, 200);
-console.log('Energia disponível após movimento:', meuVeiculoEletricoVoador.getEnergiaDisponivel(), 'Ah');
-console.log('Altitude após movimento:', meuVeiculoEletricoVoador.getAltitude());
-
+main();
