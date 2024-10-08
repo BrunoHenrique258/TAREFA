@@ -1,0 +1,133 @@
+TAREFA 1: Cores RGB - utilizando Context e Hooks
+
+//App.ts
+
+import React, { useState, createContext, useContext } from 'react';
+import styled from 'styled-components';
+
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
+  background-color: white; 
+`;
+
+const ColorDisplay = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  height: 150px;
+  border: 1px solid magenta;
+  margin-top: 20px;
+  color: white;
+  text-align: center; 
+  border-radius: 30px;
+`;
+
+const InputsContainer = styled.div`
+  display: flex; 
+  justify-content: center; 
+  margin: 10px 0; 
+`;
+
+const InputContainer = styled.div`
+  margin: 0 10px; 
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+`;
+
+const StyledInput = styled.input`
+  border-radius: 8px; 
+  border: 1px solid white; 
+  padding: 5px; 
+  width: 60px; 
+`;
+
+const ColorContext = createContext<any>(null);
+
+const ColorProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [red, setRed] = useState<number>(255);
+  const [green, setGreen] = useState<number>(60);
+  const [blue, setBlue] = useState<number>(214);
+
+  return (
+    <ColorContext.Provider value={{ red, setRed, green, setGreen, blue, setBlue }}>
+      {children}
+    </ColorContext.Provider>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <ColorProvider>
+      <Main />
+    </ColorProvider>
+  );
+};
+
+const Main: React.FC = () => {
+  const { red, green, blue, setRed, setGreen, setBlue } = useContext(ColorContext);
+
+  const handleRedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.max(0, Math.min(255, Number(e.target.value)));
+    setRed(value);
+  };
+
+  const handleGreenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.max(0, Math.min(255, Number(e.target.value)));
+    setGreen(value);
+  };
+
+  const handleBlueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.max(0, Math.min(255, Number(e.target.value)));
+    setBlue(value);
+  };
+
+  const backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+
+  return (
+    <AppContainer>
+      <ColorDisplay style={{ backgroundColor }}>
+        <InputsContainer>
+          <InputContainer>
+            <label>Vermelho (R):</label>
+            <StyledInput
+              type="number"
+              value={red}
+              onChange={handleRedChange}
+              min={0}
+              max={255}
+            />
+          </InputContainer>
+          <InputContainer>
+            <label>Verde (G):</label>
+            <StyledInput
+              type="number"
+              value={green}
+              onChange={handleGreenChange}
+              min={0}
+              max={255}
+            />
+          </InputContainer>
+          <InputContainer>
+            <label>Azul (B):</label>
+            <StyledInput
+              type="number"
+              value={blue}
+              onChange={handleBlueChange}
+              min={0}
+              max={255}
+            />
+          </InputContainer>
+        </InputsContainer>
+      </ColorDisplay>
+    </AppContainer>
+  );
+};
+
+export default App;
