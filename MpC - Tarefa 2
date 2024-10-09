@@ -83,3 +83,9 @@ export class VeiculoEletricoVoador extends VeiculoEletrico {
         }
     }
 }
+
+npm i -g typescript -D ts-node
+
+tsc --init
+
+npm i
