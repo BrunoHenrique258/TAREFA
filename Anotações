@@ -1,5 +1,14 @@
 VMC: 192.168.18.118
 
+COMANDOS PARA COMMIT NO TERMINAL:
+
+git add .
+git commit -m "informações"
+git config --global user.email "bruno.oliveira258@fatec.sp.gov.br"
+git config --global user.name "BrunoHenrique258"
+git pull origin
+git push origin
+
 TAREFA 1: Cores RGB - utilizando Context e Hooks
 
 //App.ts
