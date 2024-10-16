@@ -2,8 +2,8 @@
 de longitude e la5tude. Um veículo elétrico é um veículo que possui como fonte de energia
 primária a eletricidade (armazenada em uma bateria, que tem sua capacidade especificada em
 Ampere-hora). Um veículo elétrico e voador é um veículo que também possui a capacidade de
-se mover na ver5cal, expressa pela alteração de sua al5tude em relação ao solo. Represente um
-veículo elétrico e voador u5lizando uma cadeia de herança. Defina o código-fonte representa5vo
+se mover na vertical, expressa pela alteração de sua altitude em relação ao solo. Represente um
+veículo elétrico e voador utilizando uma cadeia de herança. Defina o código-fonte representativo
 do modelo em um arquivo separado daquele que faz uso desse e, adicionalmente exemplifique
 o acesso e a modificação desses atributos através de chamada de suas operações
 (moverHorizontal, moverVertical).
