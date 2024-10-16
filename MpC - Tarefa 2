@@ -6,7 +6,7 @@ se mover na ver5cal, expressa pela alteração de sua al5tude em relação ao so
 veículo elétrico e voador u5lizando uma cadeia de herança. Defina o código-fonte representa5vo
 do modelo em um arquivo separado daquele que faz uso desse e, adicionalmente exemplifique
 o acesso e a modificação desses atributos através de chamada de suas operações
-(moverHorizontal, moverVer5cal).
+(moverHorizontal, moverVertical).
 
 //Index.ts (Código-Fonte)
 
