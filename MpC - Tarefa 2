@@ -1,5 +1,5 @@
 //PC.2.2. Um veículo possui a capacidade de se mover, expressa pela alteração na sua coordenada
-de longitude e la5tude. Um veículo elétrico é um veículo que possui como fonte de energia
+de longitude e latitude. Um veículo elétrico é um veículo que possui como fonte de energia
 primária a eletricidade (armazenada em uma bateria, que tem sua capacidade especificada em
 Ampere-hora). Um veículo elétrico e voador é um veículo que também possui a capacidade de
 se mover na vertical, expressa pela alteração de sua altitude em relação ao solo. Represente um
