@@ -1,0 +1,118 @@
+TAREFA 1:
+
+atividade1.ts
+
+const peso: number = 70; 
+const altura: number = 1.80; 
+
+/* Cáculo do IMC */
+const imc: number = peso / (altura * altura);
+
+const imcFormatado: string = imc.toFixed(2);
+
+console.log("O IMC é: " + imcFormatado);
+
+atividade2.ts
+
+const nota1: number = 8.5; 
+const nota2: number = 7.0; 
+const nota3: number = 9.0; 
+
+/* Calculando a média */
+const media: number = (nota1 + nota2 + nota3) / 3;
+
+const mediaFormatada: string = media.toFixed(2);
+
+console.log("A média final do aluno é: " + mediaFormatada);
+
+atividade3.ts
+
+let A: number = 10;
+let B: number = 20;
+let C: number;
+
+C = A; 
+A = B; 
+B = C; 
+
+console.log("Valor de A:", A); 
+console.log("Valor de B:", B); 
+
+atividade4.ts
+
+const numero: number = 15; 
+
+const antecessor: number = numero - 1;
+const posterior: number = numero + 1;
+
+
+console.log("Número:", numero);
+console.log("Antecessor:", antecessor);
+console.log("Posterior:", posterior);
+
+atividade5.ts
+
+function calcularArea() {
+    const base: number = 5;
+    const altura: number = 10;
+    const area: number = base * altura;
+    console.log("Área do retângulo:", area);
+}
+
+calcularArea();
+
+atividade6.ts
+
+const anos: number = 25; 
+const meses: number = 6;  
+const dias: number = 15;  
+
+const idadeEmDias: number = (anos * 365) + (meses * 30) + dias;
+
+
+console.log("Idade em dias:", idadeEmDias);
+
+atividade7.ts
+
+const totalEleitores: number = 10000; 
+const votosBrancos: number = 1500;     
+const votosNulos: number = 2000;       
+const votosValidos: number = 8500;     
+
+
+const percentualBrancos: number = (votosBrancos / totalEleitores) * 100;
+const percentualNulos: number = (votosNulos / totalEleitores) * 100;
+const percentualValidos: number = (votosValidos / totalEleitores) * 100;
+
+
+console.log("Percentual de votos brancos:", percentualBrancos.toFixed(2) + "%");
+console.log("Percentual de votos nulos:", percentualNulos.toFixed(2) + "%");
+console.log("Percentual de votos válidos:", percentualValidos.toFixed(2) + "%");
+
+
+atividade8.ts
+
+const salarioAtual: number = 3000; 
+const percentualReajuste: number = 10; 
+
+const aumento: number = (salarioAtual * percentualReajuste) / 100;
+const novoSalario: number = salarioAtual + aumento;
+
+console.log("Salário antigo:", salarioAtual.toFixed(2));
+console.log("Percentual de reajuste:", percentualReajuste + "%");
+console.log("Valor do aumento:", aumento.toFixed(2));
+console.log("Novo salário:", novoSalario.toFixed(2));
+
+
+atividade9.ts
+
+function converterFahrenheitParaCelsius() {
+    const temperaturaFahrenheit: number = 212; 
+    const temperaturaCelsius: number = ((temperaturaFahrenheit - 32) / 9) * 5;
+    
+    console.log("Temperatura em Fahrenheit:", temperaturaFahrenheit);
+    console.log("Temperatura em Celsius:", temperaturaCelsius.toFixed(2));
+}
+
+converterFahrenheitParaCelsius();
+
