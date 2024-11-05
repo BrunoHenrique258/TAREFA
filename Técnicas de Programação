@@ -116,3 +116,280 @@ function converterFahrenheitParaCelsius() {
 
 converterFahrenheitParaCelsius();
 
+TAREFA 2:
+
+atividade1.ts
+
+let A: number, B: number;
+A = 3;
+B = 5;
+
+if (A > B) {
+    console.log("A comparação é verdadeira!");
+} else {
+    console.log("A comparação é falsa!");
+}
+
+atividade2.ts
+
+let peso: number, altura: number, imc: number;
+
+peso = 80;
+altura = 1.70;
+
+imc = peso / Math.pow(altura, 2);
+
+console.log("Seu IMC é: ", imc);
+
+if (imc <= 18.5) {
+    console.log("Abaixo do peso ideal");
+} else if (imc <= 24.9) {
+    console.log("Dentro do peso ideal");
+} else if (imc <= 29.9) {
+    console.log("Acima do peso ideal");
+} else if (imc <= 34.9) {
+    console.log("Obesidade grau I");
+} else if (imc <= 39.9) {
+    console.log("Obesidade grau II");
+} else {
+    console.log("Obesidade grau III");
+}
+
+atividade3.ts
+
+let nota1: number = 7.5;
+let nota2: number = 8;
+let nota3: number = 9;
+
+let media: number = (nota1 + nota2 + nota3) / 3;
+
+console.log("A média do aluno é: " + media.toFixed(2));
+
+if (media >= 6) {
+    console.log("O aluno está APROVADO.");
+} else {
+    console.log("O aluno está REPROVADO.");
+}
+
+atividade4.ts
+
+let idade: number = 25;  
+
+let categoria: string;
+
+if (idade <= 10) {
+    categoria = "Criança";
+} else if (idade <= 13) {
+    categoria = "Pré-Adolescente";
+} else if (idade <= 17) {
+    categoria = "Adolescente";
+} else if (idade <= 59) {
+    categoria = "Adulto";
+} else {
+    categoria = "Idoso";
+}
+
+console.log("A categoria etária é: " + categoria);
+
+
+atividade5.ts
+
+let totalEleitores: number = 10000;  
+let votosBrancos: number = 800;      
+let votosNulos: number = 600;        
+let votosValidos: number = 8600;     
+let votosCandidato: number = 900;    
+
+let totalVotosValidosBrancos = votosBrancos + votosValidos;
+
+let percentualVotosCandidato = (votosCandidato / totalVotosValidosBrancos) * 100;
+
+let percentualVotosEleitores = (votosCandidato / totalEleitores) * 100;
+
+
+if (percentualVotosCandidato > 10) {
+    console.log("O candidato foi eleito!");
+} else {
+    console.log("O candidato não foi eleito.");
+}
+
+
+console.log("Percentual de votos do candidato em relação à soma de votos válidos + brancos: " + percentualVotosCandidato + "%");
+console.log("Percentual de votos do candidato em relação ao total de eleitores: " + percentualVotosEleitores + "%");
+
+
+atividade6.ts
+
+
+let salarioAtual: number = 700;  
+
+
+let percentualReajuste: number;
+let salarioReajustado: number;
+
+
+if (salarioAtual <= 650) {
+    percentualReajuste = 10;  
+} else {
+    percentualReajuste = 5;   
+}
+
+
+salarioReajustado = salarioAtual * (1 + percentualReajuste / 100);
+
+
+console.log("Salário original: R$ " + salarioAtual);
+console.log("Percentual de reajuste: " + percentualReajuste + "%");
+console.log("Salário reajustado: R$ " + salarioReajustado);
+
+
+atividade7.ts
+
+let X: number = 5;
+let Y: number = 5;
+let Z: number = 5;
+
+
+if (X + Y > Z && Y + Z > X && X + Z > Y) {
+
+    if (X === Y && Y === Z) {
+        console.log("Triângulo Equilátero");
+    } else if (X === Y || Y === Z || X === Z) {
+        console.log("Triângulo Isósceles");
+    } else {
+        console.log("Triângulo Escaleno");
+    }
+} else {
+    console.log("Não forma um triângulo");
+}
+
+
+atividade8.ts
+
+let letra: string = "a"; 
+
+switch (letra.toLowerCase()) {  
+    case "a":
+    case "e":
+    case "i":
+    case "o":
+    case "u":
+        console.log("A letra digitada é uma vogal!");
+        break;
+    default:
+        console.log("A letra digitada é uma consoante!");
+}
+
+
+atividade9.ts
+
+let mes: number = 11; 
+
+switch (mes) {
+    case 1:
+        console.log("Janeiro");
+        break;
+    case 2:
+        console.log("Fevereiro");
+        break;
+    case 3:
+        console.log("Março");
+        break;
+    case 4:
+        console.log("Abril");
+        break;
+    case 5:
+        console.log("Maio");
+        break;
+    case 6:
+        console.log("Junho");
+        break;
+    case 7:
+        console.log("Julho");
+        break;
+    case 8:
+        console.log("Agosto");
+        break;
+    case 9:
+        console.log("Setembro");
+        break;
+    case 10:
+        console.log("Outubro");
+        break;
+    case 11:
+        console.log("Novembro");
+        break;
+    case 12:
+        console.log("Dezembro");
+        break;
+    default:
+        console.log("Número inválido! Digite um número de 1 a 12.");
+}
+
+
+atividade10.ts
+
+function calcularReajuste() {
+    
+    let nome: string = "João";         
+    let categoria: string = "A";       
+    let salario: number = 2000;        
+
+    let aumento: number = 0;           
+    let salarioReajustado: number;     
+
+    
+    switch (categoria) {
+        case "A":
+        case "C":
+        case "F":
+        case "H":
+            aumento = 0.10;  
+            break;
+        case "B":
+        case "D":
+        case "E":
+        case "I":
+        case "J":
+        case "T":
+            aumento = 0.15;  
+            break;
+        case "K":
+        case "R":
+            aumento = 0.25;  
+            break;
+        case "L":
+        case "M":
+        case "N":
+        case "O":
+        case "P":
+        case "Q":
+        case "S":
+            aumento = 0.35;  
+            break;
+        case "U":
+        case "V":
+        case "X":
+        case "Y":
+        case "W":
+        case "Z":
+            aumento = 0.50;  
+            break;
+        default:
+            console.log("Categoria inválida.");
+            return;  
+    }
+
+   
+    salarioReajustado = salario + (salario * aumento);
+
+    
+    console.log(`Nome do Funcionário: ${nome}`);
+    console.log(`Categoria: ${categoria}`);
+    console.log(`Salário Original: R$ ${salario}`);
+    console.log(`Percentual de Aumento: ${(aumento * 100)}%`);
+    console.log(`Salário Reajustado: R$ ${salarioReajustado}`);
+}
+
+
+calcularReajuste();
