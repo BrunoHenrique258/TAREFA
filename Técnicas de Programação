@@ -538,3 +538,213 @@ function mostrarResultado(numeros: number[]): void {
 let numeros = obterNumeros();
 
 mostrarResultado(numeros);
+
+TAREFA 4:
+
+atividade1.ts
+
+let num: number[] = Array(5);
+
+
+for (let x: number = 0; x < 5; x++) {
+    num[x] = Math.floor(Math.random() * 100 + 1); 
+}
+
+for (let x: number = 0; x < 5; x++) {
+    console.log("Posição:", x, " - Valor:", num[x]);
+}
+
+atividade2.ts
+
+var vetor: number[] = [];
+
+for (var x: number = 0; x < 5; x++) {
+    vetor[x] = Math.floor(Math.random() * 100 + 1); 
+}
+
+console.log("Valor do quarto elemento do vetor (índice 3):", vetor[3]);
+
+for (var x: number = 0; x < 5; x++) {
+    console.log("Elemento na posição", x, ":", vetor[x]);
+}
+
+atividade3.ts
+
+let cidades: string[] = [
+    "São Paulo", "Rio de Janeiro", "Salvador", 
+    "Belo Horizonte", "Porto Alegre", 
+    "Curitiba", "Fortaleza", "Recife"
+];
+
+for (let i: number = 0; i < cidades.length; i++) {
+   
+    console.log("Gostaria de visitar a cidade:", cidades[i]);
+    
+    
+    console.log("Posição:", i, " – Valor:", cidades[i]);
+}
+
+atividade4.ts
+
+let nome: string[] = ["Ana", "Carlos", "João", "Maria", "José"];
+
+
+for (let i: number = 0; i < nomes.length; i++) {
+    console.log("Conheço alguém chamado " + nomes[i]);
+}
+
+atividade5.ts
+
+let numeros: number[] = [12, 55, 34, 78, 43, 90, 22];
+
+
+let maior: number = numeros[0];
+
+
+for (let i = 1; i < numeros.length; i++) {
+   
+    if (numeros[i] > maior) {
+        maior = numeros[i]; 
+    }
+}
+
+console.log("O maior número do vetor é:", maior);
+
+atividade6.ts
+
+let nomes: string[] = ["Ana", "Carlos", "João", "Maria", "José"];
+let notas: number[][] = [
+    [7, 8],  // Ana
+    [6, 7],  // Carlos
+    [9, 10], // joão
+    [5, 6],  // Maria
+    [8, 9]   // José
+];
+
+let medias: number[] = [];
+
+for (let i = 0; i < 5; i++) {
+    medias.push((notas[i][0] + notas[i][1]) / 2); 
+}
+
+for (let i = 0; i < 5; i++) {
+    console.log("Aluno: " + nomes[i]);
+    console.log("Notas: " + notas[i][0] + ", " + notas[i][1]);
+    console.log("Média: " + medias[i]);
+    console.log('-----------------------------');
+}
+
+atividade7.ts
+
+function gerarNumeroAleatorio(): number {
+    return Math.floor(Math.random() * 100) + 1;
+}
+
+let v1: number[] = [];
+let v2: number[] = [];
+
+for (let i = 0; i < 10; i++) {
+    v1.push(gerarNumeroAleatorio());
+    v2.push(gerarNumeroAleatorio());
+}
+
+let v3: number[] = [...v1, ...v2];  
+
+console.log("Vetor v1:", v1);
+console.log("Vetor v2:", v2);
+console.log("Vetor v3 (juntando v1 e v2):", v3);
+
+atividade8.ts
+
+function gerarNumeroAleatorio2(): number {
+    return Math.floor(Math.random() * 100) + 1;
+}
+
+let vetores: number[] = [];
+
+for (let i = 0; i < 20; i++) {
+    vetores.push(gerarNumeroAleatorio2());
+}
+
+vetores.sort((a, b) => a - b); 
+
+console.log("Vetor em ordem crescente:", vetores);
+
+atividade9.ts
+
+function gerarNumeroAleatorio3(): number {
+    return Math.floor(Math.random() * 100) + 1;
+}
+
+let vetorAleatorio: number[] = [];  
+
+for (let i = 0; i < 30; i++) {
+    vetorAleatorio.push(gerarNumeroAleatorio3());
+}
+
+console.log("Números gerados no vetor:");
+console.log(vetorAleatorio);
+
+let maiorNumero = vetorAleatorio[0];  
+let menorNumero = vetorAleatorio[0];  
+let posicaoMaior = 0;
+let posicaoMenor = 0;
+
+for (let i = 1; i < vetorAleatorio.length; i++) {
+    if (vetorAleatorio[i] > maiorNumero) {
+        maiorNumero = vetorAleatorio[i];
+        posicaoMaior = i;
+    }
+    if (vetorAleatorio[i] < menorNumero) {
+        menorNumero = vetorAleatorio[i];
+        posicaoMenor = i;
+    }
+}
+
+console.log("Maior número: " + maiorNumero + " na posição " + posicaoMaior);
+console.log("Menor número: " + menorNumero + " na posição " + posicaoMenor);
+
+atividade10.ts
+
+function gerarNumeroAleatorio4(): number {
+    return Math.floor(Math.random() * 100) + 1;
+}
+
+function gerarMatrizQuadrada(tamanho: number): number[][] {
+    let matriz: number[][] = [];
+    
+    for (let i = 0; i < tamanho; i++) {
+        let linha: number[] = [];
+        for (let j = 0; j < tamanho; j++) {
+            linha.push(gerarNumeroAleatorio4());
+        }
+        matriz.push(linha);
+    }
+
+    return matriz;
+}
+
+function somarPrimeiraLinha(matriz: number[][]): number[][] {
+    let matrizModificada = matriz.map((linha, index) => {
+        return linha.map((valor, j) => valor + matriz[0][j]);
+    });
+
+    return matrizModificada;
+}
+
+function exibirMatriz(matriz: number[][]): void {
+    for (let i = 0; i < matriz.length; i++) {
+        console.log(matriz[i].join(" "));
+    }
+}
+
+const tamanho: number = 5; 
+
+let matrizOriginal = gerarMatrizQuadrada(tamanho);
+let matrizModificada = somarPrimeiraLinha(matrizOriginal);
+
+console.log("Matriz Original:");
+exibirMatriz(matrizOriginal);
+
+console.log("\nMatriz Modificada (somando a primeira linha a todas as demais):");
+exibirMatriz(matrizModificada);
