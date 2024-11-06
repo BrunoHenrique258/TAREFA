@@ -393,3 +393,148 @@ function calcularReajuste() {
 
 
 calcularReajuste();
+
+TAREFA 3:
+
+atividade1.ts
+
+var cont: number;
+
+for (cont = 1; cont <= 11; cont++) {
+    console.log("Numero: " + cont);
+}
+
+atividade2.ts
+
+var cont: number;
+
+for (cont = 5; cont <= 11; cont++) {
+    console.log("Numero: " + cont);
+}
+
+
+atividade3.ts
+
+var cont: number;
+
+for (cont = 4; cont <= 23; cont++) {
+    console.log("Numero: " + cont);
+}
+
+
+atividade4.ts
+
+var i: number;
+
+for (i = 5; i <= 50; i += 5) {  
+    console.log(i);
+}
+
+
+atividade5.ts
+
+var i: number;
+
+for (i = 20; i >= 0; i -= 2) {  
+    console.log(i);
+}
+
+
+atividade6.ts
+
+var i: number;
+
+for (i = 8; i <= 120; i += 12) {  
+    console.log(i);
+}
+
+
+atividade7.ts
+
+var soma: number = 0;  
+var i: number = 1;     
+
+while (i <= 10) {
+    soma += i;  
+    i++;       
+}
+
+console.log("A soma dos números de 1 a 10 é: " + soma);
+
+
+atividade8.ts
+
+function contarVogaisConsoantes(palavra: string): void {
+    let vogais = 0;
+    let consoantes = 0;
+
+    for (let letra of palavra.toLowerCase()) {
+        if ("aeiou".includes(letra)) {
+            vogais++;  
+        } else if (letra >= 'a' && letra <= 'z') {
+            consoantes++;  
+        }
+    }
+
+    console.log("Vogais: " + vogais);
+    console.log("Consoantes: " + consoantes);
+}
+
+
+let palavra = "bom dia";  
+
+contarVogaisConsoantes(palavra);
+
+
+atividade9.ts
+
+function fatoresPrimos(numero: number): number[] {
+    let fatores: number[] = [];
+    let divisor = 2;
+
+    while (numero > 1) {
+        while (numero % divisor === 0) {
+            fatores.push(divisor);
+            numero /= divisor;
+        }
+        divisor++;
+    }
+
+    return fatores;
+}
+
+let numero = 54; 
+
+let fatores = fatoresPrimos(numero);
+
+if (fatores.length > 1) {
+    console.log(fatores.join(', '));
+}
+
+
+atividade10.ts
+
+function obterNumeros(): number[] {
+    let numeros: number[] = [10, 25, 30, 45, 15, 50, 20, 35, 70, 60]; 
+    return numeros;
+}
+
+function mostrarResultado(numeros: number[]): void {
+    
+    numeros.sort((a, b) => a - b);
+
+    
+    let menor = Math.min(...numeros);
+    let maior = Math.max(...numeros);
+    let soma = numeros.reduce((acc, num) => acc + num, 0);
+
+   
+    console.log("Menor número:", menor);
+    console.log("Maior número:", maior);
+    console.log("Somatória dos números:", soma);
+    console.log("Números em ordem crescente:", numeros.join(", "));
+}
+
+let numeros = obterNumeros();
+
+mostrarResultado(numeros);
