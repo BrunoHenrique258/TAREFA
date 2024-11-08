@@ -1,0 +1,494 @@
+styled_Main
+
+import { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
+
+//CSS global para o body e tamanho das fontes e coress
+const GlobalStyles = createGlobalStyle`
+  /* Fonte padrão usanda na aplicação será a roboto, importada do google fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+  /* Variaveis de cores usadas no layout da aplicação tema claro*/
+  :root {
+    --color-1: #f0f0f0; /*Branco*/
+    --color-2: #59107e; /*Roxo-1*/
+    --color-3: #a546ce; /*Roxo-2*/
+    --color-4: #f0ddee; /*Roxo-3*/
+    --color-5: #27c289; /*Verde-1*/
+
+  /* Variaveis de cores usadas no layout da aplicação tema escuro*/
+    --color-6: #0c011b; /*Roxo-4*/
+    --color-7: #4e3d93; /*Roxo-5*/
+    --color-8: #7b68ee; /*Azul*/
+    --color-9: #00fa9a; /*Verde-2*/
+    --color-10: #000000;/*Preto */
+    --color-11: #3f3f3f;/*Cinza */
+    --color-15: #2c2c2c;/*Cinza-2 */
+    --color-12: #cccccc;/*Branco-2*/
+    --color-13: #dc143c;/*Vermelho*/
+    --color-14: #de3163;/*Vermelho-2*/
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Estilo padrão para o tema claro */
+  body {
+    background-color: var(--color-1);
+    color: var(--color-2);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Estilo para o tema escuro */
+  .dark-theme {
+    background-color: var(--color-15);
+    color: var(--color-1);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+  }
+`;
+
+//Conteiner para o body da aplicação
+const ContainerBody = styled.div`
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  width: 90vw;
+  height: calc(100vh - 50px);
+  max-width: 100vw;
+  margin: 100px auto 20px;
+  border-radius: 15px;
+  background-color: transparent;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+`;
+
+//Criação da barra de navegação e sidebar
+const ContainerMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Navbar = styled.div`
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  position: fixed;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 80px;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  border-bottom-right-radius: 10px;
+  color: var(--color-1);
+  background-color: var(--color-2);
+`;
+
+const Sidebar = styled.div`
+  position: fixed;
+  top: 60px;
+  width: 60px;
+  height: 60vh;
+  border-bottom-right-radius: 30px;
+  color: var(--color-1);
+  background-color: var(--color-2);
+`;
+
+const SidebarContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 5px;
+`;
+
+const Item = styled.button`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 20px 0;
+  padding: 10px;
+  position: relative;
+  transition: background-color 0.3s, border-radius 0.3s;
+  border-radius: 5px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-4);
+    border-radius: 10px;
+  }
+`;
+
+const Icon = styled.div`
+  font-size: 24px;
+  margin-left: 3px;
+`;
+
+const Ico = styled.div`
+  font-size: 16px;
+  margin-left: 3px;
+  justify-contente: center;
+  align-content: center;
+`;
+
+//Estilo para o rodapé da aplicação
+const Footer = styled.footer`
+  position: relative;
+  bottom: 1;
+  width: 100%;
+  height: 120px;
+  background-color: var(--color-11);
+  color: var(--color-1);
+  align-items: center;
+  text-align: center;
+  align-content: center;
+  margin-top: auto;
+  z-index: 1000;
+`;
+
+const ImgIcon = styled.div`
+  position: absolute;
+  bottom: 0px;
+  right: 20px;
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    max-width: 100px;
+    height: auto;
+
+    @media (min-width: 768px) {
+      max-width: 150px; /* Ajuste para telas maiores */
+    }
+  }
+`;
+
+export {
+  ContainerBody,
+  GlobalStyles,
+  ContainerMenu,
+  Navbar,
+  Sidebar,
+  SidebarContent,
+  Item,
+  Icon,
+  Ico,
+  Footer,
+  ImgIcon,
+};
+
+Home 
+
+// src/Home.tsx
+
+import React, { useContext, useEffect, useState } from "react";
+import MealChart from "../components/MealChart";
+import imgLogoSemFundo from "../assets/img-logo-semfundo.png";
+import {
+  ContainerBody,
+  ContainerMenu,
+  Navbar,
+  Sidebar,
+  SidebarContent,
+  Icon,
+  Item,
+  Footer,
+  ImgIcon,
+} from "../styled/styled_Main";
+import { IonIcon } from "@ionic/react";
+import { Icons } from "../components/icons";
+import styled_Home from "../styled/styled_Home";
+import { useNavigate } from "react-router-dom";
+import { AdmMenu } from "../components";
+import { UserContext, UserProvider, EatContext } from "../contexts";
+import { GoalProps, UserContextProps } from "../types";
+import { formatDateTime } from "../components/Date";
+import styled from "styled-components";
+
+interface Meal {
+  date: string;
+  foodName: string;
+  quantity: number;
+  food_name: string;
+}
+
+type MealItem =
+  | "150g de frango grelhado"
+  | "1 colher de arroz integral"
+  | "25g de brócolis"
+  | "salada verde com azeite de oliva";
+
+const caloriasPorItem: Record<MealItem, number> = {
+  "150g de frango grelhado": 300,
+  "1 colher de arroz integral": 80,
+  "25g de brócolis": 10,
+  "salada verde com azeite de oliva": 50,
+};
+
+const {
+  InfoBox1,
+  InfoBox2,
+  FoodBox,
+  MealInfo,
+  MealKcal,
+  MealType,
+  Mealtime,
+  MealItems,
+  ChartContainer,
+  FoodBoxContainer,
+  MealTimeContainer,
+  MealTypeContainer,
+  InfoBoxContainer,
+} = styled_Home();
+
+// Estilizando o botão de alternância de tema
+const ToggleButton = styled.button`
+  background-color: ${({ theme }) => theme.buttonBackground};
+  color: ${({ theme }) => theme.buttonColor};
+  border: none;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  
+  ion-icon {
+    margin-right: 8px;
+  }
+`;
+
+const Home: React.FC = () => {
+  const navigate = useNavigate();
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false); // Estado para o modo escuro
+  const { getHistoricoWithFoodName, getHistoricoByDate } = useContext(EatContext);
+  const [historicoData, setHistoricoData] = useState<Meal[]>([]);
+  const [pesoPessoa, setPesoPessoa] = useState<number>(0);
+  const [alturaPessoa, setAlturaPessoa] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [goals, setGoals] = useState<GoalProps[]>([]);
+  const { getGoals } = useContext(UserContext) || ({} as UserContextProps);
+  const [error, setError] = useState<string | null>(null);
+  const { fetchWeightAndHeight = async () => ({ weight: 0, height: 0 }) } =
+    useContext(UserContext) || ({} as UserContextProps);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add("dark-theme");
+    } else {
+      document.body.classList.remove("dark-theme");
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode); // Alterna o estado do modo escuro
+  };
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchWeightAndHeight();
+        if ("weight" in data && "height" in data) {
+          setPesoPessoa(data.weight);
+          setAlturaPessoa(data.height);
+        }
+
+        // Buscar metas do usuário
+        const userGoals = await getGoals();
+        setGoals(userGoals);
+
+        // Buscar histórico de refeições
+        const historico = await getHistoricoWithFoodName();
+        if (Array.isArray(historico)) {
+          // Ordena as refeições por data (do mais recente para o mais antigo)
+          const sortedHistorico = historico.sort((a, b) => {
+            const dateA = new Date(a.date);
+            const dateB = new Date(b.date);
+            return dateB.getTime() - dateA.getTime(); // Ordem decrescente
+          });
+          setHistoricoData(sortedHistorico);
+        } else {
+          setError("Dados do histórico são inválidos.");
+        }
+
+        // Buscar a última refeição automaticamente
+        const endDate = new Date().toISOString().split("T")[0]; // Hoje
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 1); // Ontem
+        const startDateFormatted = startDate.toISOString().split("T")[0];
+
+        const meals = await getHistoricoByDate(startDateFormatted, endDate);
+        if (meals.length > 0) {
+          setHistoricoData(meals);
+        } else {
+          setError("Nenhuma refeição encontrada para o intervalo.");
+        }
+      } catch (e: any) {
+        setError("Erro ao carregar os dados.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInitialData();
+  }, [fetchWeightAndHeight, getGoals, getHistoricoWithFoodName, getHistoricoByDate]);
+
+  const calcularCalorias = (items: MealItem[]): number => {
+    return items.reduce(
+      (total, item) => total + (caloriasPorItem[item] || 0),
+      0
+    );
+  };
+
+  const calcularConsumoAgua = (peso: number): string => {
+    const consumo = peso * 35;
+    const litros = consumo / 1000;
+    return `${litros.toFixed(1).replace(".", ",")} L`;
+  };
+
+  const consumoAgua = calcularConsumoAgua(pesoPessoa);
+
+  const calcularIMC = (
+    peso: number,
+    altura: number
+  ): { imc: string; grau: string } => {
+    const imc = peso / (altura * altura);
+    let grau = "";
+    if (imc < 16) grau = "Magreza grave";
+    else if (imc < 16.9) grau = "Magreza moderada";
+    else if (imc < 18.5) grau = "Magreza leve";
+    else if (imc < 24.9) grau = "Peso ideal";
+    else if (imc < 29.9) grau = "Sobrepeso";
+    else if (imc < 34.9) grau = "Obesidade grau I";
+    else if (imc < 39.9) grau = "Obesidade grau II";
+    else grau = "Obesidade grau III ou superior";
+    return { imc: imc.toFixed(1).replace(".", ","), grau };
+  };
+
+  const resultadoIMC = calcularIMC(pesoPessoa, alturaPessoa);
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  const lastMeal = historicoData.length > 0 ? historicoData[0] : null; // Agora a refeição mais recente é a primeira da lista ordenada
+
+  const totalCalorias = lastMeal
+    ? calcularCalorias([lastMeal.food_name as MealItem]) * lastMeal.quantity
+    : 0;
+
+  return (
+    <>
+      <ContainerMenu>
+        <Navbar>
+          <h1>Nome de usuário</h1>
+          <ToggleButton onClick={toggleTheme}>
+            <IonIcon icon={isDarkMode ? Icons.moon : Icons.sunny} />
+            {isDarkMode ? "Modo Escuro" : "Modo Claro"}
+          </ToggleButton>
+          <UserProvider>
+            <AdmMenu />
+          </UserProvider>
+        </Navbar>
+        <Sidebar>
+          <SidebarContent>
+            <Item onClick={() => navigate("/home")}>
+              <Icon>
+                <IonIcon icon={Icons.home} />
+              </Icon>
+            </Item>
+            <Item onClick={() => navigate("/cardapio")}>
+              <Icon>
+                <IonIcon icon={Icons.restaurant} />
+              </Icon>
+            </Item>
+            <Item onClick={() => navigate("/historico")}>
+              <Icon>
+                <IonIcon icon={Icons.nutrition} />
+              </Icon>
+            </Item>
+            <Item onClick={() => navigate("/metas")}>
+              <Icon>
+                <IonIcon icon={Icons.fitness} />
+              </Icon>
+            </Item>
+          </SidebarContent>
+        </Sidebar>
+        <ContainerBody>
+          <InfoBoxContainer>
+            <InfoBox1>
+              <div className="content">
+                <label className="imc-label">IMC</label>
+                <label className="imc">{resultadoIMC.imc}</label>
+                <label className="imc-label">Grau: {resultadoIMC.grau}</label>
+                <div className="objetivo-container">
+                  <label className="objetivo">Objetivo: </label>
+                  <label className="objetivo">
+                    {goals.length > 0
+                      ? goals.map((goal) => goal.goals).join(", ")
+                      : "Sem objetivo definido"}
+                  </label>
+                </div>
+              </div>
+            </InfoBox1>
+            <InfoBox2>
+              <div className="content">
+                <label className="consumo-label">Consumo de água</label>
+                <label className="consumo-agua">{consumoAgua}</label>
+              </div>
+            </InfoBox2>
+          </InfoBoxContainer>
+          <FoodBoxContainer>
+            <FoodBox>
+              <MealInfo>
+                {lastMeal ? (
+                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '15px' }}>
+                    <h3>Refeição do dia:</h3>
+                    <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+                      <IonIcon icon={Icons.time} style={{ marginRight: '8px' }} />
+                      <label className="meal-time">Horário: {formatDateTime(lastMeal.date)}</label>
+                    </div>
+                    <h2>{lastMeal.food_name}</h2>
+                    <h4>Quantidade: {lastMeal.quantity}kg</h4>
+                    <p>Total de Calorias: {totalCalorias} Kcal</p>
+                  </div>
+                ) : (
+                  <div>Sem refeição registrada</div>
+                )}
+              </MealInfo>
+              <ChartContainer>
+                <MealChart />
+              </ChartContainer>
+            </FoodBox>
+          </FoodBoxContainer>
+        </ContainerBody>
+        <Footer>
+          Copyright © 2024 / 2025 | HighTech
+          <br />
+          Todos os direitos reservados
+          <ImgIcon>
+            <img src={imgLogoSemFundo} alt="Logo Nutritech" />
+          </ImgIcon>
+        </Footer>
+      </ContainerMenu>
+    </>
+  );
+};
+
+export default Home;
