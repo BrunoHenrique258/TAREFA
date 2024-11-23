@@ -26,6 +26,115 @@ CREATE TABLE livro(
 	Titulo_Livro INTEGER
 );
 
+AULA 12
+
+-- exercicios
+
+
+--1 Crie uma funcao denominada fc_soma que recebe dois valores inteiros e retorna o valor resultante da soma de ambos
+
+CREATE OR REPLACE FUNCTION fc_soma(val1 INT, val2 INT)
+RETURNS INT AS $$
+BEGIN
+    RETURN val1 + val2;
+END;
+$$ LANGUAGE plpgsql;
+
+--2 Crie uma funcao denominada fc_maior_salario, que sem usar função agregada MAX, retorne o nome do empregado com o maior salario.
+
+CREATE OR REPLACE FUNCTION fc_maior_salario()
+RETURNS TEXT AS $$
+DECLARE
+    empregado_nome TEXT;
+    maior_salario REAL := 0;
+BEGIN
+    
+    FOR empregado IN
+        SELECT nome, salario FROM tbl_empregados
+    LOOP
+        -- Se o salário atual for maior que o maior salário encontrado até agora
+        IF empregado.salario > maior_salario THEN
+            maior_salario := empregado.salario;
+            empregado_nome := empregado.nome;
+        END IF;
+    END LOOP;
+
+    RETURN empregado_nome;
+END;
+$$ LANGUAGE plpgsql;
+
+--3 crie a funcao fc_media_salario que retorna a media dos salarios dos empregados
+
+CREATE OR REPLACE FUNCTION fc_media_salario()
+RETURNS REAL AS $$
+DECLARE
+    total_salarios REAL := 0;
+    num_empregados INT := 0;
+BEGIN
+   
+    FOR empregado IN
+        SELECT salario FROM tbl_empregados
+    LOOP
+        total_salarios := total_salarios + empregado.salario;
+        num_empregados := num_empregados + 1;
+    END LOOP;
+
+    IF num_empregados > 0 THEN
+        RETURN total_salarios / num_empregados;
+    ELSE
+        RETURN 0;  
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+--4 Crie a funcao fc_salarios que recebe o código do empregado como parâmetro e retorne o salário, o salário acrescido de 10% e o salário reduzido em 15%.
+
+CREATE OR REPLACE FUNCTION fc_salarios(cod_empregado INT)
+RETURNS TABLE(salario REAL, salario_acrescimo REAL, salario_reducao REAL) AS $$
+BEGIN
+    
+    SELECT 
+        salario, 
+        salario * 1.10 AS salario_acrescimo,  -- Salário acrescido de 10%
+        salario * 0.85 AS salario_reducao    -- Salário reduzido em 15%
+    INTO salario, salario_acrescimo, salario_reducao
+    FROM tbl_empregados
+    WHERE cod_empregado = cod_empregado;
+    
+    RETURN NEXT;
+END;
+$$ LANGUAGE plpgsql;
+
+--5 Crie uma funcao denominada fc_projetos que liste o código e o nome de todos os projetos cadastrados.
+
+CREATE OR REPLACE FUNCTION fc_projetos()
+RETURNS TABLE(cod_projeto INT, nome_projeto TEXT) AS $$
+BEGIN
+
+    RETURN QUERY
+    SELECT cod_projeto, nome
+    FROM tbl_projetos;
+END;
+$$ LANGUAGE plpgsql;
+
+--6 Crie a funcao fc_proj_departmento que recebe o codigo do departamento e mostra quantos projetos o departamento possui
+
+CREATE OR REPLACE FUNCTION fc_proj_departmento(cod_departamento INT)
+RETURNS INT AS $$
+DECLARE
+    num_projetos INT;
+BEGIN
+    
+    SELECT COUNT(*)
+    INTO num_projetos
+    FROM tbl_projetos
+    WHERE cod_departamento = cod_departamento;
+
+    
+    RETURN num_projetos;
+END;
+$$ LANGUAGE plpgsql;
+
 
 AULA 14
 
