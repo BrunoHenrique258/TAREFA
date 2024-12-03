@@ -1,111 +1,216 @@
-// Veiculo.ts
+// PessoaAbstrata.ts
 
-export class Veiculo {
-    private latitude: number;
-    private longitude: number;
-
-    constructor(latitude: number, longitude: number) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+export abstract class Pessoa {
+    public nome: string;
+    public idade: number;
+    public email: string;
+    public fone: string; 
+  
+    constructor(nome: string, idade: number, email: string, fone: string | undefined) {
+      this.nome = nome;
+      this.idade = idade;
+      this.email = email;
+      this.fone = this.phoneMask(fone || ""); 
     }
-
-    public obterCoordenadas(): { latitude: number; longitude: number } {
-        return { latitude: this.latitude, longitude: this.longitude };
+  
+    /* Função para aplicar a máscara no telefone */
+    phoneMask(v: string): string {
+      if (!v) {
+        return ""; 
+      }
+  
+      let r = v.replace(/\D/g, ""); 
+  
+      /* Aplicando a máscara de acordo com o número de dígitos */
+      if (r.length >= 11) {
+        r = r.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"); /* para 11 dígitos */
+      } else if (r.length > 7) {
+        r = r.replace(/^(\d{2})(\d{5})(\d{0,5})$/, "($1) $2-$3"); /* para 8 ou 9 dígitos */
+      } else if (r.length > 2) {
+        r = r.replace(/^(\d{2})(\d{0,5})$/, "($1) $2"); /* Máscara para DDD */
+      } else if (v.trim() !== "") {
+        r = r.replace(/^(\d*)$/, "($1"); /* Máscara inicial */
+      }
+  
+      return r;
     }
-
-    public mover(novaLatitude: number, novaLongitude: number): void {
-        this.latitude = novaLatitude;
-        this.longitude = novaLongitude;
+  
+    /* Validando o telefone (validação sem a máscara) */
+    validaFone(): boolean {
+      /* Removendo todos os caracteres não numéricos para validar apenas os números */
+      const telefoneSemMascara = this.fone.replace(/\D/g, ""); /* Remove qualquer formatação (parênteses, espaços, hífens) */
+  
+    /* Validação de telefones com 10 ou 11 dígitos */
+      const regex = /^[0-9]{10,11}$/;
+      return regex.test(telefoneSemMascara); // Verifica se o telefone tem 10 ou 11 números
     }
-}
-
-export class VeiculoEletrico extends Veiculo {
-    protected bateria: number; // Capacidade da bateria em porcentagem
-
-    constructor(latitude: number, longitude: number, bateria: number) {
-        super(latitude, longitude);
-        this.bateria = bateria;
-    }
-
-    public obterBateria(): number {
-        return this.bateria;
-    }
-
-    public recarregar(novaBateria: number): void {
-        this.bateria = Math.min(novaBateria, 100); // A bateria não pode passar de 100%
-    }
-
-    public mover(novaLatitude: number, novaLongitude: number): void {
-        if (this.bateria > 0) {
-            super.mover(novaLatitude, novaLongitude);
-            this.bateria -= 10; // Consome 10% da bateria ao mover
-            console.log(`Movendo para: Latitude ${novaLatitude}, Longitude ${novaLongitude}`);
-        } else {
-            console.log("Bateria insuficiente para mover.");
-        }
-    }
-}
-
-export class VeiculoEletricoVoador extends VeiculoEletrico {
-    private altitude: number; // Altitude em metros
-
-    constructor(latitude: number, longitude: number, bateria: number, altitude: number = 0) {
-        super(latitude, longitude, bateria);
-        this.altitude = altitude;
-    }
-
-    public obterAltitude(): number {
-        return this.altitude;
-    }
-
-    public subir(incremento: number): void {
-        this.altitude += incremento;
-        console.log(`Subindo para a altitude: ${this.altitude} metros.`);
-    }
-
-    public descer(decremento: number): void {
-        if (this.altitude - decremento >= 0) {
-            this.altitude -= decremento;
-            console.log(`Descendo para a altitude: ${this.altitude} metros.`);
-        } else {
-            console.log("Não é possível descer abaixo da altitude 0 metros.");
-        }
-    }
-
-    public mover(novaLatitude: number, novaLongitude: number): void {
-        console.log(`Tentando mover para: Latitude ${novaLatitude}, Longitude ${novaLongitude}.`);
-        if (this.bateria > 0) {
-            super.mover(novaLatitude, novaLongitude);
-            this.bateria -= 15; // Consome 15% da bateria ao mover no ar
-            console.log(`Movido! Nova posição: Latitude ${novaLatitude}, Longitude ${novaLongitude}, Altitude ${this.altitude} metros.`);
-        } else {
-            console.log("Bateria insuficiente para mover.");
-        }
-    }
-}
-
-
-// App.ts
-
-import { VeiculoEletricoVoador } from './Veiculo';
-
-function main() {
-    // Criação de um novo veículo elétrico voador
-    const veiculoVoador = new VeiculoEletricoVoador(40.7128, -74.0060, 100); // Nova Iorque com bateria cheia
-
-    // Acessando as coordenadas e altitude
-    console.log(`Coordenadas iniciais: ${JSON.stringify(veiculoVoador.obterCoordenadas())}`);
-    console.log(`Bateria: ${veiculoVoador.obterBateria()}%`);
-    console.log(`Altitude: ${veiculoVoador.obterAltitude()} metros`);
-
-    // Movendo o veículo elétrico voador
-    veiculoVoador.subir(100); // Subindo para 100 metros
-    veiculoVoador.mover(34.0522, -118.2437); // Nova localização
-    console.log(`Movido! Bateria restante: ${veiculoVoador.obterBateria()}%`);
-
-      // Descendo o veículo até 0 metros
-      veiculoVoador.descer(veiculoVoador.obterAltitude()); // Descendo para 0 metros
-      console.log(`Altitude atual: ${veiculoVoador.obterAltitude()} metros`);
+  
+    /* Método abstrato de validação de email */
+    abstract validaEmail(): boolean;
   }
 
-main();
+// Estudante.ts
+
+import { Pessoa } from "./PessoaAbstrata"; 
+
+export class Estudante extends Pessoa {
+  public ra: number; 
+  public media: number;
+
+  
+  constructor(nome: string, idade: number, email: string, fone: string, registro: number, media: number) {
+    super(nome, idade, email, fone); 
+    this.ra = registro;
+    this.media = media;
+  }
+
+  /* Método para calcular a situação do estudante */
+  situacao(): string {
+    if (this.media >= 6) {
+      return "Aprovado";
+    } else if (this.media >= 5) {
+      return "Exame";
+    } else {
+      return "Reprovado";
+    }
+  }
+
+  /* Implementação do método validaEmail */
+  validaEmail(): boolean {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; /*definindo um padrão */
+    const emailValido = regex.test(this.email);
+    const dominioValido = this.email.endsWith('@etec.sp.gov.br') || this.email.endsWith('@fatec.sp.gov.br') || this.email.endsWith('@cps.sp.gov.br');
+    
+    return emailValido && dominioValido;
+  }
+
+  /* Implementação do método validaFone */
+  validaFone(): boolean {
+    /* Remove todos os caracteres não numéricos */
+    const telefoneSemMascara = this.fone.replace(/\D/g, "");
+    
+    /* A validação de telefones com 10 ou 11 dígitos */
+    const regex = /^[0-9]{10,11}$/;
+    return regex.test(telefoneSemMascara); 
+  }
+}
+
+
+// Professor.ts
+
+import { Pessoa } from "./PessoaAbstrata"; 
+
+export class Professor extends Pessoa {
+  public matricula: number;
+  public salario: number;
+
+  
+  constructor(nome: string, idade: number, email: string, fone: string, matricula: number, salario: number) {
+    super(nome, idade, email, fone); 
+    this.matricula = matricula;
+    this.salario = salario;
+  }
+
+  /* Implementação do método validaEmail */
+  validaEmail(): boolean {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailValido = regex.test(this.email);
+    const dominioValido = this.email.endsWith('@etec.sp.gov.br') || this.email.endsWith('@fatec.sp.gov.br') || this.email.endsWith('@cps.sp.gov.br');
+    
+    return emailValido && dominioValido;
+  }
+
+  /* Implementação do método validaFone */
+  validaFone(): boolean {
+    const telefoneSemMascara = this.fone.replace(/\D/g, "");
+
+    const regex = /^[0-9]{10,11}$/; /*definindo um padrão */
+    return regex.test(telefoneSemMascara);
+  }
+
+  /* Método para formatar o salário em reais */
+  formatSalario(): string {
+    return this.salario.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  /* Método para aplicar a máscara no telefone */
+  phoneMask(v: string): string {
+    if (!v) {
+      return ""; 
+    }
+  
+    let r = v.replace(/\D/g, ""); /* Remove caracteres não numéricos */
+    r = r.replace(/^0/, ""); /* Remove o zero inicial se houver */
+  
+    if (r.length >= 11) {
+      r = r.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3"); /* Máscara para 11 dígitos */
+    } else if (r.length > 7) {
+      r = r.replace(/^(\d{2})(\d{5})(\d{0,5}).*/, "($1) $2-$3"); /* Máscara para 8 ou 9 dígitos */
+    } else if (r.length > 2) {
+      r = r.replace(/^(\d{2})(\d{0,5})/, "($1) $2"); /* Máscara para DDD */
+    } else if (v.trim() !== "") {
+      r = r.replace(/^(\d*)/, "($1"); /* Máscara inicial */
+    }
+  
+    return r;
+  }
+}
+
+
+// index.ts
+
+import { Estudante } from './Estudante'; 
+import { Professor } from './Professor';  
+
+let estudantes: Array<Estudante> = [];
+let estudante = new Estudante("Joaquim Barbosa", 18, "joaquim.barbosa@fatec.sp.gov.br", "12996600022", 1, 5.5);
+estudantes.push(estudante);
+
+estudante = new Estudante("Marcos da Silva", 21, "marcos.silva@etec.sp.gov.br", "12912343567", 2, 7.5);
+estudantes.push(estudante);
+
+estudante = new Estudante("Ana Maria Brega", 25, "ana.brega@etec.sp.gov.br", "12999979999", 3, 10);
+estudantes.push(estudante);
+
+estudante = new Estudante("Paulo França", 18, "paulo.fraca@fatec.sp.gov.br", "12999967999", 4, 4.5);
+estudantes.push(estudante);
+
+estudante = new Estudante("Edson Arantes", 30, "edson.arantes@gmail.sp.gov.br", "999957999", 5, 9);
+estudantes.push(estudante);
+
+let professores: Array<Professor> = [];
+let professor = new Professor("Antonio Marcos", 38, "antonio.marcos@etec.sp.gov.br", "12996600022", 1000, 2995.50);
+professores.push(professor);
+
+professor = new Professor("Erasmo Carlos", 45, "erasmo.carlos@fatec.sp.gov.br", "12996600022", 1001, 5554.81);
+professores.push(professor);
+
+professor = new Professor("José Augusto", 36, "jose.augusto@cps.sp.gov.br", "12996600044", 1003, 3661.95);
+professores.push(professor);
+
+professor = new Professor("Elis Regina", 25, "elis.regina@fatec.sp.gov.br", "12996600066", 1004, 4322.76);
+professores.push(professor);
+
+professor = new Professor("Gal Costa", 39, "meu_nome_eh_gal@gmail.com", "997996101", 1005, 7824.32);
+professores.push(professor);
+
+/* Impressão dos estudantes */
+estudantes.forEach(estudante => {
+  console.log(`<< ESTUDANTE >>`);
+  console.log(`Registro: ${estudante.ra}`);
+  console.log(`Nome: ${estudante.nome}`);
+  console.log(`Média: ${estudante.media.toFixed(2)}`);
+  console.log(`Situação: ${estudante.media >= 7 ? 'Aprovado' : estudante.media >= 5 ? 'Exame' : 'Reprovado'}`);
+  console.log(`Fone: ${estudante.phoneMask(estudante.fone)} - ${estudante.validaFone() ? 'Válido' : 'Inválido'}`);
+  console.log(`e-Mail: ${estudante.email} - ${estudante.validaEmail() ? 'Válido' : 'Inválido'}`);
+});
+
+/* Impressão dos professores */
+professores.forEach(professor => {
+  console.log(`<< PROFESSOR >>`);
+  console.log(`Matrícula: ${professor.matricula}`);
+  console.log(`Nome: ${professor.nome}`);
+  console.log(`Salário: ${professor.salario.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`);
+  console.log(`Fone: ${professor.phoneMask(professor.fone)} - ${professor.validaFone() ? 'Válido' : 'Inválido'}`);
+  console.log(`e-Mail: ${professor.email} - ${professor.validaEmail() ? 'Válido' : 'Inválido'}`);
+});
